@@ -23,7 +23,7 @@ This lab demonstrates how improper validation in a file upload feature can be ex
 - **Target URL:** `http://ai.ctf.defhawk.com:8080/`
 - **Stack:** Apache Tomcat 9.0.106 (Java-based)
 
-![Landing Screenshot](https://raw.githubusercontent.com/ak-115/Getbackshell/refs/heads/main/Screenshot%20From%202025-07-13%2003-12-15.png)
+![Landing Screenshot](Screenshot%20From%202025-07-13%2003-12-15.png)
 
 ---
 
