@@ -1,10 +1,10 @@
-# 🛡️ Enumerate - Local File Inclusion (LFI) – Writeup
+#  Enumerate - Local File Inclusion (LFI) – Writeup
 
-## 📖 What is Local File Inclusion (LFI)?
+## What is Local File Inclusion (LFI)?
 
 **Local File Inclusion (LFI)** is a type of vulnerability that occurs when a web application includes files on the server dynamically, using user-supplied input without proper validation or sanitization. If not properly secured, this can allow attackers to read arbitrary files on the server.
 
-### 🔥 Common Impact of LFI:
+### Common Impact of LFI:
 - Reading sensitive files (e.g., `/etc/passwd`, application source code)
 - Disclosure of credentials or secrets
 - Possible remote code execution in certain setups (e.g., log poisoning, wrappers)
@@ -12,9 +12,9 @@
 ---
 
 ## Target: ```http://web.labs.defhawk.com:12000/```
-![Target](Screenshot From 2025-07-14 13-24-52.png)
+![Target](Screenshot%20From%202025-07-14%2013-24-52.png)
 
-## 🧩 Challenge Summary
+## Challenge Summary
 
 The web application provides a search functionality with the following URL structure:
 
@@ -22,26 +22,26 @@ The web application provides a search functionality with the following URL struc
 http://web.labs.defhawk.com:12000/search?term=flag&sample=Sample1
 ```
 
-![Flag](Screenshot From 2025-07-14 13-26-41.png)
+![Flag](Screenshot%20From%202025-07-14%2013-26-41.png)
 
 Our goal was to exploit an LFI vulnerability to enumerate system files and retrieve the flag.
 
 ---
 
-## 🕵️ Step 1: Testing for LFI
+## Step 1: Testing for LFI
 
 To determine if the `sample` parameter is vulnerable to LFI, we attempted to traverse out of the web directory and access `/etc/passwd`:
 
 ```
 /search?term=flag&sample=../../../../../etc/passwd
 ```
-![/etc/passwd](Screenshot From 2025-07-14 13-30-58.png)
+![/etc/passwd](Screenshot%20From%202025-07-14%2013-30-58.png)
 
-✅ **Success** – The contents of `/etc/passwd` were displayed, confirming the LFI vulnerability.
+**Success** – The contents of `/etc/passwd` were displayed, confirming the LFI vulnerability.
 
 ---
 
-## 🔍 Step 2: User Enumeration
+## Step 2: User Enumeration
 
 From the `/etc/passwd` output, we identified a non-system user:
 
@@ -61,7 +61,7 @@ But received no output.
 
 ---
 
-## 🧪 Step 3: Reading Environment Variables
+## Step 3: Reading Environment Variables
 
 We used LFI to read environment variables, which often contain useful path info:
 
@@ -69,19 +69,19 @@ We used LFI to read environment variables, which often contain useful path info:
 /search?term=flag&sample=../../../../../proc/self/environ
 ```
 
-✅ This returned:
+This returned:
 
 ```
 HOME=/root
 PWD=/usr/src/app
 ```
-![/proc/self/environ](Screenshot From 2025-07-14 13-34-50.png)
+![/proc/self/environ](Screenshot%20From%202025-07-14%2013-34-50.png)
 
 This revealed that the working directory for the application was `/usr/src/app`.
 
 ---
 
-## 🏁 Step 4: Retrieving the Flag
+## Step 4: Retrieving the Flag
 
 Using this information, we attempted to access:
 
@@ -89,13 +89,13 @@ Using this information, we attempted to access:
 /search?term=flag&sample=../../../../../usr/src/app/flag.txt
 ```
 
-✅ **Success** – The flag was retrieved successfully.
+**Success** – The flag was retrieved successfully.
 
-![flag](Screenshot From 2025-07-14 13-36-58.png)
+![flag](Screenshot%20From%202025-07-14%2013-36-58.png)
 
 ---
 
-## 🔐 LFI Mitigation Strategies
+## LFI Mitigation Strategies
 
 To prevent LFI vulnerabilities:
 
@@ -109,7 +109,7 @@ To prevent LFI vulnerabilities:
 
 ---
 
-## ✅ Conclusion
+## Conclusion
 
 By carefully examining application behavior and exploiting path traversal, we were able to:
 
